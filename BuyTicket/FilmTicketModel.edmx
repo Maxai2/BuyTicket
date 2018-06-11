@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FilmTicketModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Film">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Film_Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Duration" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hall">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumOfHall" Type="int" Nullable="false" />
+          <Property Name="SeatRowCount" Type="int" Nullable="false" />
+          <Property Name="SeatColCount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Seans">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Seans_Data" Type="date" Nullable="false" />
+          <Property Name="Seans_Time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="Film_Id" Type="int" Nullable="false" />
+          <Property Name="Type_Id" Type="int" Nullable="false" />
+          <Property Name="Hall_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Seat_Row" Type="int" Nullable="false" />
+          <Property Name="Seat_Col" Type="int" Nullable="false" />
+          <Property Name="Ticket_DateTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Seans_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type_Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Seans_Film_Id">
+          <End Role="Film" Type="Self.Film" Multiplicity="1" />
+          <End Role="Seans" Type="Self.Seans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Film">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seans">
+              <PropertyRef Name="Film_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seans_Hall_Id">
+          <End Role="Hall" Type="Self.Hall" Multiplicity="1" />
+          <End Role="Seans" Type="Self.Seans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hall">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seans">
+              <PropertyRef Name="Hall_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seans_Type_Id">
+          <End Role="Type" Type="Self.Type" Multiplicity="1" />
+          <End Role="Seans" Type="Self.Seans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seans">
+              <PropertyRef Name="Type_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ticket_Seans_Id">
+          <End Role="Seans" Type="Self.Seans" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seans">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Seans_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FilmTicketModelStoreContainer">
+          <EntitySet Name="Film" EntityType="Self.Film" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hall" EntityType="Self.Hall" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seans" EntityType="Self.Seans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type" EntityType="Self.Type" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Seans_Film_Id" Association="Self.FK_Seans_Film_Id">
+            <End Role="Film" EntitySet="Film" />
+            <End Role="Seans" EntitySet="Seans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seans_Hall_Id" Association="Self.FK_Seans_Hall_Id">
+            <End Role="Hall" EntitySet="Hall" />
+            <End Role="Seans" EntitySet="Seans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seans_Type_Id" Association="Self.FK_Seans_Type_Id">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Seans" EntitySet="Seans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ticket_Seans_Id" Association="Self.FK_Ticket_Seans_Id">
+            <End Role="Seans" EntitySet="Seans" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FilmTicketModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Film">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Film_Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Duration" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Seans" Relationship="Self.FK_Seans_Film_Id" FromRole="Film" ToRole="Seans" />
+        </EntityType>
+        <EntityType Name="Hall">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumOfHall" Type="Int32" Nullable="false" />
+          <Property Name="SeatRowCount" Type="Int32" Nullable="false" />
+          <Property Name="SeatColCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Seans" Relationship="Self.FK_Seans_Hall_Id" FromRole="Hall" ToRole="Seans" />
+        </EntityType>
+        <EntityType Name="Sean">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Seans_Data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Seans_Time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="Film_Id" Type="Int32" Nullable="false" />
+          <Property Name="Type_Id" Type="Int32" Nullable="false" />
+          <Property Name="Hall_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Film" Relationship="Self.FK_Seans_Film_Id" FromRole="Seans" ToRole="Film" />
+          <NavigationProperty Name="Hall" Relationship="Self.FK_Seans_Hall_Id" FromRole="Seans" ToRole="Hall" />
+          <NavigationProperty Name="Type" Relationship="Self.FK_Seans_Type_Id" FromRole="Seans" ToRole="Type" />
+          <NavigationProperty Name="Tickets" Relationship="FilmTicketModel.FK_Ticket_Seans_Id" FromRole="Sean" ToRole="Ticket" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Seans" Relationship="Self.FK_Seans_Type_Id" FromRole="Type" ToRole="Seans" />
+        </EntityType>
+        <Association Name="FK_Seans_Film_Id">
+          <End Role="Film" Type="Self.Film" Multiplicity="1" />
+          <End Role="Seans" Type="Self.Sean" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Film">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seans">
+              <PropertyRef Name="Film_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seans_Hall_Id">
+          <End Role="Hall" Type="Self.Hall" Multiplicity="1" />
+          <End Role="Seans" Type="Self.Sean" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hall">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seans">
+              <PropertyRef Name="Hall_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seans_Type_Id">
+          <End Role="Type" Type="Self.Type" Multiplicity="1" />
+          <End Role="Seans" Type="Self.Sean" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Seans">
+              <PropertyRef Name="Type_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FilmTicketEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Films" EntityType="Self.Film" />
+          <EntitySet Name="Halls" EntityType="Self.Hall" />
+          <EntitySet Name="Seans" EntityType="Self.Sean" />
+          <EntitySet Name="Types" EntityType="Self.Type" />
+          <AssociationSet Name="FK_Seans_Film_Id" Association="Self.FK_Seans_Film_Id">
+            <End Role="Film" EntitySet="Films" />
+            <End Role="Seans" EntitySet="Seans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seans_Hall_Id" Association="Self.FK_Seans_Hall_Id">
+            <End Role="Hall" EntitySet="Halls" />
+            <End Role="Seans" EntitySet="Seans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seans_Type_Id" Association="Self.FK_Seans_Type_Id">
+            <End Role="Type" EntitySet="Types" />
+            <End Role="Seans" EntitySet="Seans" />
+          </AssociationSet>
+          <EntitySet Name="Tickets" EntityType="FilmTicketModel.Ticket" />
+          <AssociationSet Name="FK_Ticket_Seans_Id" Association="FilmTicketModel.FK_Ticket_Seans_Id">
+            <End Role="Sean" EntitySet="Seans" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Seat_Row" Type="Int32" Nullable="false" />
+          <Property Name="Seat_Col" Type="Int32" Nullable="false" />
+          <Property Name="Ticket_DateTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Seans_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Sean" Relationship="FilmTicketModel.FK_Ticket_Seans_Id" FromRole="Ticket" ToRole="Sean" />
+        </EntityType>
+        <Association Name="FK_Ticket_Seans_Id">
+          <End Type="FilmTicketModel.Sean" Role="Sean" Multiplicity="1" />
+          <End Type="FilmTicketModel.Ticket" Role="Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sean">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Seans_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FilmTicketModelStoreContainer" CdmEntityContainer="FilmTicketEntities">
+          <EntitySetMapping Name="Films">
+            <EntityTypeMapping TypeName="FilmTicketModel.Film">
+              <MappingFragment StoreEntitySet="Film">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Film_Name" ColumnName="Film_Name" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Halls">
+            <EntityTypeMapping TypeName="FilmTicketModel.Hall">
+              <MappingFragment StoreEntitySet="Hall">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NumOfHall" ColumnName="NumOfHall" />
+                <ScalarProperty Name="SeatRowCount" ColumnName="SeatRowCount" />
+                <ScalarProperty Name="SeatColCount" ColumnName="SeatColCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seans">
+            <EntityTypeMapping TypeName="FilmTicketModel.Sean">
+              <MappingFragment StoreEntitySet="Seans">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Seans_Data" ColumnName="Seans_Data" />
+                <ScalarProperty Name="Seans_Time" ColumnName="Seans_Time" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Film_Id" ColumnName="Film_Id" />
+                <ScalarProperty Name="Type_Id" ColumnName="Type_Id" />
+                <ScalarProperty Name="Hall_Id" ColumnName="Hall_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Types">
+            <EntityTypeMapping TypeName="FilmTicketModel.Type">
+              <MappingFragment StoreEntitySet="Type">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Type_Name" ColumnName="Type_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="FilmTicketModel.Ticket">
+              <MappingFragment StoreEntitySet="Ticket">
+                <ScalarProperty Name="Seans_Id" ColumnName="Seans_Id" />
+                <ScalarProperty Name="Ticket_DateTime" ColumnName="Ticket_DateTime" />
+                <ScalarProperty Name="Seat_Col" ColumnName="Seat_Col" />
+                <ScalarProperty Name="Seat_Row" ColumnName="Seat_Row" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="48c28ba32ef94d9fb9fae3b45fed9b5d" Name="Diagram1">
+        <EntityTypeShape EntityType="FilmTicketModel.Film" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FilmTicketModel.Hall" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FilmTicketModel.Sean" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="FilmTicketModel.Type" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
+        <AssociationConnector Association="FilmTicketModel.FK_Seans_Film_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="FilmTicketModel.FK_Seans_Hall_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="FilmTicketModel.FK_Seans_Type_Id" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FilmTicketModel.Ticket" Width="1.5" PointX="5.25" PointY="1.375" />
+        <AssociationConnector Association="FilmTicketModel.FK_Ticket_Seans_Id" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
