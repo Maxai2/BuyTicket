@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BuyTicket
 {
-    public class Seat
+    public class Seat 
     {
         public int Row { get; set; }
         public int Col { get; set; }

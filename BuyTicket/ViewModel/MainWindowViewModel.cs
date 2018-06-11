@@ -240,7 +240,7 @@ namespace BuyTicket.ViewModel {
                 return this.reservation;
             }
         }
-
+         
         private bool CheckReserve()
         {
             if (this.SelectedSeats.Count > 0 && this.Email.Length > 0 && (this.Email.Contains("@gmail.com") || this.Email.Contains("@mail.ru") || this.Email.Contains("@yandex.ru")))

@@ -33,7 +33,7 @@ public partial class Sean
 
     public System.TimeSpan Seans_Time { get; set; }
 
-    public int Price { get; set; }
+    public int Price { get; set; } 
 
     public int Film_Id { get; set; }
 

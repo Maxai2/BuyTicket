@@ -118,7 +118,7 @@
 						<DataTemplate>
 							<Border Name="SeatItem" Margin="5" BorderThickness="2" BorderBrush="Green">
 
-								<!--<Border.Style>
+								<!--<Border.Style> 
 									<Style TargetType="{x:Type Border}">
 										<Style.Triggers>
 											<DataTrigger Binding="{Binding IsEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="false">
