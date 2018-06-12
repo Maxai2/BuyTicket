@@ -9,28 +9,39 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace BuyTicket.ViewModel {
-    public class MainWindowViewModel : NotifyableObject, ITicketBuyViewModel {
+namespace BuyTicket.ViewModel
+{
+    public class MainWindowViewModel : NotifyableObject, ITicketBuyViewModel
+    {
         public ObservableCollection<Film> Films { get; private set; }
         public ObservableCollection<Type> Types { get; private set; }
         public ObservableCollection<Sean> Seans { get; private set; }
         public ObservableCollection<Hall> Halls { get; private set; }
         public ObservableCollection<Seat> Seats { get; private set; }
+
         public List<Ticket> Tickets { get; set; }
+
         private string email;
         public string Email { get => email; set { email = value; base.OnChanged(); } }
+
         private DateTime selectedDate;
-        public DateTime SelectedDate {
+        public DateTime SelectedDate
+        {
             get { return selectedDate; }
-            set {
+            set
+            {
                 selectedDate = value;
                 base.OnChanged();
                 this.Seans.Clear();
                 FilmTicketEntities db = new FilmTicketEntities();
-                if (SelectedFilm.Film_Name != null && SelectedType != null) {
-                    foreach (var item in db.Seans) {
-                        if (item.Seans_Data == SelectedDate) {
-                            if (item.Film.Id == SelectedFilm.Id && item.Type_Id == SelectedType.Id) {
+                if (SelectedFilm.Film_Name != null && SelectedType != null)
+                {
+                    foreach (var item in db.Seans)
+                    {
+                        if (item.Seans_Data == SelectedDate)
+                        {
+                            if (item.Film.Id == SelectedFilm.Id && item.Type_Id == SelectedType.Id)
+                            {
                                 Seans.Add(item);
                             }
                         }
@@ -63,9 +74,8 @@ namespace BuyTicket.ViewModel {
             }
         }
 
-
         public ITicketBuyView View { get; private set; }
-        public bool IsSelected { get; set; }
+
         private ObservableCollection<Seat> selectedSeats;
         public ObservableCollection<Seat> SelectedSeats { get => selectedSeats; set { selectedSeats = value; base.OnChanged(); } }
 
@@ -142,16 +152,13 @@ namespace BuyTicket.ViewModel {
         private Sean sean;
         public Sean SelectedSeans
         {
-            get => sean;
-
-            set
+            get => sean; set
             {
                 sean = value;
                 base.OnChanged();
                 var seansTickets = new List<Ticket>();
                 Seats.Clear();
                 seansTickets.Clear();
-
                 if (SelectedSeans != null)
                 {
                     foreach (var item in Tickets)
@@ -161,11 +168,9 @@ namespace BuyTicket.ViewModel {
                             seansTickets.Add(item);
                         }
                     }
-
                     if (SelectedSeans.Hall != null)
                     {
                         var current = Halls.First(h => h.Id == SelectedSeans.Hall_Id);
-
                         for (int i = 0; i < current.SeatRowCount; i++)
                         {
                             for (int j = 0; j < current.SeatColCount; j++)
@@ -173,20 +178,16 @@ namespace BuyTicket.ViewModel {
                                 Seat seat = new Seat
                                 {
                                     Row = i,
-                                    Col = j,
-                                    IsBusy = true
+                                    Col = j
                                 };
-
+                                foreach (var item in seansTickets)
+                                {
+                                    if (item.Seat_Col == seat.Col && item.Seat_Row == seat.Row)
+                                    {
+                                        seat.IsBusy = false;
+                                    }
+                                }
                                 Seats.Add(seat);
-
-
-                                //foreach (var item in seansTickets)
-                                //{
-                                //    if (item.Seat_Col == seat.Col && item.Seat_Row == seat.Row)
-                                //    {
-                                //        seat.IsBusy = false;
-                                //    }
-                                //}
                             }
                         }
                     }
@@ -203,6 +204,14 @@ namespace BuyTicket.ViewModel {
             this.View = view;
             this.View.BindDataContext(this);
         }
+
+        private Boolean selectedSeansForSeat;
+        public Boolean SelectedSeansForSeat
+        {
+            get { return selectedSeansForSeat; }
+            set { selectedSeansForSeat = value; base.OnChanged(); }
+        }
+
 
 
         private ICommand reservation;
@@ -245,10 +254,7 @@ namespace BuyTicket.ViewModel {
         {
             if (this.SelectedSeats.Count > 0 && this.Email.Length > 0 && (this.Email.Contains("@gmail.com") || this.Email.Contains("@mail.ru") || this.Email.Contains("@yandex.ru")))
             {
-                foreach (var item in collection)
-                {
 
-                }
 
                 return true;
             }

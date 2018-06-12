@@ -116,7 +116,18 @@
 
 					<ListView.ItemTemplate>
 						<DataTemplate>
-							<Border Name="SeatItem" Margin="5" BorderThickness="2" BorderBrush="Green">
+
+							<DataTemplate.Triggers>
+								<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=DataContext.SelectedSeansForSeat}" Value="True">
+									<Setter Property="IsEnabled" Value="False"/>
+								</DataTrigger>
+
+								<DataTrigger Binding="{Binding SelectedSeansForSeat}" Value="False">
+									<Setter Property="IsEnabled" Value="True"/>
+								</DataTrigger>
+							</DataTemplate.Triggers>
+
+							<Border Name="SeatItem" Margin="5" BorderThickness="2">
 
 								<!--<Border.Style> 
 									<Style TargetType="{x:Type Border}">
@@ -127,7 +138,7 @@
 										</Style.Triggers>
 									</Style>
 								</Border.Style>-->
-								
+
 								<StackPanel Margin="3">
 									<TextBlock Text="{Binding Path=Row, StringFormat=Ряд: {0}}"/>
 
