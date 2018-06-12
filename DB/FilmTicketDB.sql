@@ -71,3 +71,21 @@ VALUES (1, 5, 6), (2, 6, 8), (3, 4, 4)
 
 INSERT INTO Seans (Film_Id, Hall_Id, Price, Seans_Data, Seans_Time, [Type_Id])
 VALUES (1, 1, 15, '07/06/2018', '12:00', 2), (1, 2, 10, '07/06/2018', '14:35', 2)
+
+
+DELETE FROM Seans
+
+DBCC CHECKIDENT('Seans', RESEED, 0)
+
+INSERT INTO Seans (Film_Id, Hall_Id, Price, Seans_Data, Seans_Time, [Type_Id])
+VALUES (4, 2, 6, GETDATE(), '19:10', 1), (4, 3, 8, GETDATE(), '22:05', 2),
+		(3, 1, 5, GETDATE(), '20:30', 2), (3, 2, 7, GETDATE(), '21:45', 1),
+		(2, 2, 7, GETDATE(), '18:30', 1), (2, 1, 20, GETDATE(), '22:40', 2),
+		(1, 3, 15, GETDATE(), '15:05', 2), (1, 2, 7, GETDATE(), '23:05', 1)
+
+SELECT *
+FROM Seans
+
+DELETE FROM Ticket
+
+DBCC CHECKIDENT('Ticket', RESEED, 0)
