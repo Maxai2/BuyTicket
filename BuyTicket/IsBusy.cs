@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace BuyTicket
 {
-    public class Seat 
+    public class IsBusy
     {
-        public int Row { get; set; }
-        public int Col { get; set; }
+        public bool IsEmpty { get; set; }
 
-        public IsBusy IsEmpty { get; set; }
+        public IsBusy(bool value)
+        {
+            IsEmpty = value;
+        }
     }
 }

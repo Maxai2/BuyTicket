@@ -4,12 +4,13 @@
 								xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 								xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 								xmlns:sys="clr-namespace:System;assembly=mscorlib"
+								xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+								xmlns:common="clr-namespace:BuyTicket.Common"
 								xmlns:System="clr-namespace:System;assembly=mscorlib"
-                                xmlns:common="clr-namespace:BuyTicket.Common"
 								xmlns:local="clr-namespace:BuyTicket"
-                                xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 								mc:Ignorable="d"
 								Title="MainWindow" Height="450" Width="800">
+	
 	<Window.InputBindings>
 		<KeyBinding Command="{Binding Reservation}" Key="Enter"/>
 	</Window.InputBindings>
@@ -36,7 +37,7 @@
 
 					<Label Grid.Column="0" Content="Дата" FontSize="16"/>
 					<DatePicker Grid.Column="1" DisplayDateStart="{x:Static sys:DateTime.Today}"  VerticalAlignment="Center"
-                                SelectedDate="{Binding SelectedDate}"/>
+																																SelectedDate="{Binding SelectedDate}"/>
 				</Grid>
 
 				<Grid Margin="0 5">
@@ -70,9 +71,9 @@
 				<Separator Grid.Row="0" Height="20"/>
 				<Label Grid.Row="1" Content="Сеансы:" FontSize="20" HorizontalAlignment="Center"/>
 
-				<DataGrid Grid.Row="2" IsReadOnly="True" Margin="5 0" AutoGenerateColumns="False" ItemsSource="{Binding Seans}" CanUserAddRows="False"
-                          CanUserDeleteRows="False" VerticalScrollBarVisibility="Auto" 
-                          SelectedItem="{Binding SelectedSeans, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single">
+				<DataGrid Grid.Row="2" IsReadOnly="True" Margin="5 0" AutoGenerateColumns="False" ItemsSource="{Binding SeansForGrid}" CanUserAddRows="False"
+																										CanUserDeleteRows="False" VerticalScrollBarVisibility="Auto" 
+																										SelectedItem="{Binding SelectedSeans, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Дата" Width="*" Binding="{Binding Seans_Data, StringFormat=d}"/>
 						<DataGridTextColumn Header="Фильм" Width="*" Binding="{Binding Film.Film_Name}"/>
@@ -103,10 +104,11 @@
 			<Border Name="Bd" Grid.Row="1" BorderThickness="1">
 
 				<ListView x:Name="HallMap" Margin="5" ItemsSource="{Binding Seats}"
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionMode="Multiple">
-					<!--<i:Interaction.Behaviors>
+																										ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionMode="Multiple">
+					
+					<i:Interaction.Behaviors>
 						<common:MultiSelectionBehavior SelectedItems="{Binding SelectedSeats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-					</i:Interaction.Behaviors>-->
+					</i:Interaction.Behaviors>
 
 					<ListView.ItemsPanel>
 						<ItemsPanelTemplate>
@@ -118,16 +120,16 @@
 						<DataTemplate>
 
 							<DataTemplate.Triggers>
-								<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=DataContext.SelectedSeansForSeat}" Value="True">
+								<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListViewItem}, Path=IsEmpty}" Value="True">
 									<Setter Property="IsEnabled" Value="False"/>
 								</DataTrigger>
 
-								<DataTrigger Binding="{Binding SelectedSeansForSeat}" Value="False">
+								<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListViewItem}, Path=IsEmpty}" Value="False">
 									<Setter Property="IsEnabled" Value="True"/>
 								</DataTrigger>
 							</DataTemplate.Triggers>
 
-							<Border Name="SeatItem" Margin="5" BorderThickness="2">
+							<Border Name="SeatItem" Margin="5" BorderThickness="2" BorderBrush="Green">
 
 								<!--<Border.Style> 
 									<Style TargetType="{x:Type Border}">

@@ -25,20 +25,20 @@ namespace BuyTicket.Common {
             DependencyProperty.Register("SelectedItems", typeof(IList), typeof(MultiSelectionBehavior), new UIPropertyMetadata(null, SelectedItemsChanged));
 
         private static void SelectedItemsChanged(DependencyObject o, DependencyPropertyChangedEventArgs e) {
-            var behavior = o as MultiSelectionBehavior;
-            if (behavior == null)
+            if (!(o is MultiSelectionBehavior behavior))
                 return;
 
-            var oldValue = e.OldValue as INotifyCollectionChanged;
-            var newValue = e.NewValue as INotifyCollectionChanged;
 
-            if (oldValue != null) {
+            if (e.OldValue is INotifyCollectionChanged oldValue)
+            {
                 oldValue.CollectionChanged -= behavior.SourceCollectionChanged;
                 behavior.AssociatedObject.SelectionChanged -= behavior.ListBoxSelectionChanged;
             }
-            if (newValue != null) {
+            if (e.NewValue is INotifyCollectionChanged newValue)
+            {
                 behavior.AssociatedObject.SelectedItems.Clear();
-                foreach (var item in (IEnumerable)newValue) {
+                foreach (var item in (IEnumerable)newValue)
+                {
                     behavior.AssociatedObject.SelectedItems.Add(item);
                 }
 
