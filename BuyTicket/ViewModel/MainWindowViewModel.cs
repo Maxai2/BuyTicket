@@ -20,6 +20,14 @@ namespace BuyTicket.ViewModel
         public ObservableCollection<Hall> Halls { get; private set; }
         public ObservableCollection<Seat> Seats { get; private set; }
 
+        private Seat selectedSeat;
+        public Seat SelectedSeat
+        {
+            get { return selectedSeat; }
+            set { selectedSeat = value; base.OnChanged(); }
+        }
+
+
         public List<Ticket> Tickets { get; set; }
 
         public ITicketBuyView View { get; private set; }
@@ -365,14 +373,26 @@ namespace BuyTicket.ViewModel
                                             Seans_Id = SelectedSeans.Id,
                                             Ticket_DateTime = DateTime.Now
                                         };
+                                        seat.IsEmpty = new IsBusy(false);
+
+                                        foreach (var item in SelectedSeats)
+                                        {
+                                            if (item.Col == seat.Col && item.Row == seat.Row)
+                                            {
+                                                seat.IsEmpty = new IsBusy(true);
+                                                break;
+                                            }
+                                        }
+
                                         context.Tickets.Add(ticket);
                                         context.SaveChanges();
                                     }
                                     this.View.ShowAlert("Successfully reserved!", "INFO");
                                 }
-                                catch (Exception)
+                                catch (Exception e)
                                 {
                                     this.View.ShowAlert("Is this seat taken!", "Error");
+                                    
                                 }
 
                             }

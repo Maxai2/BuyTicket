@@ -104,7 +104,7 @@
 			<Border Name="Bd" Grid.Row="1" BorderThickness="1">
 
 				<ListView x:Name="HallMap" Margin="5" ItemsSource="{Binding Seats}"
-																										ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionMode="Multiple">
+																										SelectedItem="{Binding SelectedSeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionMode="Multiple">
 					
 					<i:Interaction.Behaviors>
 						<common:MultiSelectionBehavior SelectedItems="{Binding SelectedSeats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -120,11 +120,11 @@
 						<DataTemplate>
 
 							<DataTemplate.Triggers>
-								<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListViewItem}, Path=IsEmpty}" Value="True">
+								<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListViewItem}, Path=IsEmpty.IsEmpty}" Value="True">
 									<Setter Property="IsEnabled" Value="False"/>
 								</DataTrigger>
 
-								<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListViewItem}, Path=IsEmpty}" Value="False">
+								<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListViewItem}, Path=IsEmpty.IsEmpty}" Value="False">
 									<Setter Property="IsEnabled" Value="True"/>
 								</DataTrigger>
 							</DataTemplate.Triggers>
