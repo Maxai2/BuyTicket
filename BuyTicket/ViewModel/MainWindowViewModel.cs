@@ -388,6 +388,8 @@ namespace BuyTicket.ViewModel
                                         context.SaveChanges();
                                     }
                                     this.View.ShowAlert("Successfully reserved!", "INFO");
+
+                                    SelectedSeats.Clear();
                                 }
                                 catch (Exception e)
                                 {

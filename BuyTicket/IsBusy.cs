@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BuyTicket.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,18 @@ using System.Threading.Tasks;
 
 namespace BuyTicket
 {
-    public class IsBusy
+    public class IsBusy : NotifyableObject
     {
-        public bool IsEmpty { get; set; }
+        private bool isEmpty;
+        public bool IsEmpty
+        {
+            get => isEmpty;
+            set
+            {
+                isEmpty = value;
+                base.OnChanged();
+            }
+        }
 
         public IsBusy(bool value)
         {
