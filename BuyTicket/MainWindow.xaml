@@ -126,9 +126,9 @@
 							</Border>
 							<DataTemplate.Triggers>
 								<DataTrigger Binding="{Binding Path=IsEmpty.IsEmpty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="True">
-									<Setter Property="Cursor" Value="Hand"/>
 									<Setter TargetName="SeatItem" Property="BorderBrush" Value="Red"/>
 								</DataTrigger>
+								
 								<DataTrigger Binding="{Binding Path=IsEmpty.IsEmpty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
 									<Setter Property="Cursor" Value="Hand"/>
 								</DataTrigger>
